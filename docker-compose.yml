@@ -7,13 +7,12 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     env_file: ./env
-    command: /boot.sh
     volumes:
       - ./storage:/var/www/pixelfed/storage
       - app-bootstrap:/var/www/pixelfed/bootstrap
       - "./env:/var/www/pixelfed/.env"
     ports:
-      - "7676:80"
+      - "8080:80"
     depends_on:
       - pf-db
       - pf-redis
@@ -21,6 +20,22 @@ services:
       - private
       - openbracket
 
+  pf-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: ./env
+    command: /boot.sh
+    volumes:
+      - ./storage:/var/www/pixelfed/storage
+      - app-bootstrap:/var/www/pixelfed/bootstrap
+    depends_on:
+      - pf-db
+      - pf-redis
+    networks:
+      - private
+      - openbracket
   pf-db:
     restart: always
     image: postgres:14-alpine
