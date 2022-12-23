@@ -22,5 +22,6 @@ WORKDIR /var/www/pixelfed
 
 COPY env .env
 RUN (crontab -l ; echo "* * * * * /usr/bin/php /usr/share/webapps/pixelfed/artisan schedule:run >> /dev/null 2>&1")| crontab -
-COPY boot.sh /
-RUN chmod +x /boot.sh
+
+RUN echo "hello"
+CMD ["contrib/docker/start.fpm.sh"]
