@@ -16,12 +16,12 @@ COPY php.production.ini "$PHP_INI_DIR/php.ini"
 
 WORKDIR /var/www/
 
-RUN git clone https://github.com/pixelfed/pixelfed.git 
+RUN mkdir pixelfed
 
 WORKDIR /var/www/pixelfed
 
-COPY env .env
+COPY . .
 RUN (crontab -l ; echo "* * * * * /usr/bin/php /usr/share/webapps/pixelfed/artisan schedule:run >> /dev/null 2>&1")| crontab -
 
 RUN echo "hello"
-CMD ["contrib/docker/start.fpm.sh"]
+CMD ["/var/www/pixelfed/boot.sh"]

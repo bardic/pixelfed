@@ -7,9 +7,9 @@ COPY contrib/docker/php.production.ini "$PHP_INI_DIR/php.ini"
 ENV COMPOSER_VERSION 1.9.2
 ENV COMPOSER_HOME /var/www/.composer
 RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
-  && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
-  && php -r "if (hash('SHA384', file_get_contents('/tmp/composer-setup.php')) !== trim(file_get_contents('/tmp/composer-setup.sig'))) { unlink('/tmp/composer-setup.php'); echo 'Invalid installer' . PHP_EOL; exit(1); }" \
-  && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION} && rm -rf /tmp/composer-setup.php
+      && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
+      && php -r "if (hash('SHA384', file_get_contents('/tmp/composer-setup.php')) !== trim(file_get_contents('/tmp/composer-setup.sig'))) { unlink('/tmp/composer-setup.php'); echo 'Invalid installer' . PHP_EOL; exit(1); }" \
+      && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION} && rm -rf /tmp/composer-setup.php
 
 # Update OS Packages
 RUN apt-get update
@@ -17,7 +17,7 @@ RUN apt-get update
 # Install OS Packages
 RUN apt-get install -y --no-install-recommends apt-utils
 RUN apt-get install -y --no-install-recommends \
-## Standard
+      ## Standard
       locales locales-all \
       git \
       gosu \
@@ -25,20 +25,20 @@ RUN apt-get install -y --no-install-recommends \
       unzip \ 
       libzip-dev \ 
       libcurl4-openssl-dev \
-## Image Optimization
+      ## Image Optimization
       optipng \
       pngquant \
       jpegoptim \
       gifsicle \
-## Image Processing
+      ## Image Processing
       libjpeg62-turbo-dev \
       libpng-dev \
-# Required for GD
+      # Required for GD
       libxpm4 \
       libxpm-dev \
       libwebp6 \
       libwebp-dev \
-## Video Processing
+      ## Video Processing
       ffmpeg
 
 # Update Local data
@@ -90,5 +90,5 @@ RUN composer global remove hirak/prestissimo
 RUN rm -rf html && ln -s public html
 
 VOLUME /var/www/storage /var/www/bootstrap
- 
-CMD ["/var/www/contrib/docker/start.fpm.sh"]
+
+CMD ["./contrib/docker/start.fpm.sh"]

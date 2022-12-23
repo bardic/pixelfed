@@ -6,11 +6,11 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
-    env_file: ./env
+    env_file: ./.env
     volumes:
       - ./storage:/var/www/pixelfed/storage
       - app-bootstrap:/var/www/pixelfed/bootstrap
-      - "./env:/var/www/pixelfed/.env"
+      #- "./env:/var/www/pixelfed/.env"
     ports:
       - "8080:80"
     depends_on:
@@ -25,7 +25,7 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
-    env_file: ./env
+    env_file: ./.env
     command: php artisan horizon
     volumes:
       - ./storage:/var/www/pixelfed/storage
@@ -33,6 +33,7 @@ services:
     depends_on:
       - pf-db
       - pf-redis
+      - pf-app
     networks:
       - private
       - openbracket

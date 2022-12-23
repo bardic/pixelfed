@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if test -f "$FILE"; then
+if test -f "/var/www/pixelfed/.ready"; then
     echo "Intial run already completed "
 else
     composer install --no-ansi --no-interaction --optimize-autoloader
@@ -9,17 +9,17 @@ else
     php artisan migrate --force
     php artisan import:cities
     php artisan instance:actor
-    php artisan route:cache
-    php artisan view:cache
-    php artisan config:cache
-    php artisan horizon:install
-    php artisan horizon:publish
     php artisan storage:link
-
-    
 
 
     touch /var/www/pixelfed/.ready
 fi
 
-php artisan horizon
+# Refresh the environment
+php artisan horizon:publish
+php artisan route:cache
+php artisan view:cache
+php artisan config:cache
+
+# Finally run FPM
+php-fpm
