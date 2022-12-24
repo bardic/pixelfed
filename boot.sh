@@ -22,4 +22,6 @@ php artisan view:cache
 php artisan config:cache
 
 # Finally run FPM
-php-fpm
+php-fpm -D
+
+php artisan horizon
