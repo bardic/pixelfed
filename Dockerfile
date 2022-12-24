@@ -1,5 +1,7 @@
 FROM php:8-fpm-alpine3.17 as base 
 
+COPY php.production.ini "$PHP_INI_DIR/php.ini"
+
 RUN apk update && \
     apk add git
 
@@ -12,7 +14,7 @@ RUN chmod +x /usr/local/bin/install-php-extensions && \
 RUN install-php-extensions @composer
 
 
-COPY php.production.ini "$PHP_INI_DIR/php.ini"
+
 
 WORKDIR /var/www/
 
@@ -21,7 +23,7 @@ RUN mkdir pixelfed
 WORKDIR /var/www/pixelfed
 
 COPY . .
-RUN (crontab -l ; echo "* * * * * /usr/bin/php /usr/share/webapps/pixelfed/artisan schedule:run >> /dev/null 2>&1")| crontab -
+RUN (crontab -l ; echo "* * * * * /usr/bin/php /var/www/pixelfed/artisan schedule:run >> /dev/null 2>&1")| crontab -
 
 RUN echo "hello"
 CMD ["/var/www/pixelfed/boot.sh"]
