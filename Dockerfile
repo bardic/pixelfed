@@ -25,5 +25,8 @@ WORKDIR /var/www/pixelfed
 COPY . .
 RUN (crontab -l ; echo "* * * * * /usr/bin/php /var/www/pixelfed/artisan schedule:run >> /dev/null 2>&1")| crontab -
 
-RUN echo "hello"
+RUN chown -R www-data:www-data . 
+RUN find . -type d -exec chmod 755 {} \; 
+RUN find . -type f -exec chmod 644 {} \; 
+
 CMD ["/var/www/pixelfed/boot.sh"]

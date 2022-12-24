@@ -20,9 +20,7 @@ php artisan horizon:publish
 php artisan route:cache
 php artisan view:cache
 php artisan config:cache
-
-php artisan horizon
-
 # Finally run FPM
-php-fpm
+php-fpm -D 
 
+go www-data php artisan horizon
