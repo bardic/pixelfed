@@ -21,7 +21,8 @@ php artisan route:cache
 php artisan view:cache
 php artisan config:cache
 
-# Finally run FPM
-php-fpm -D
-
 php artisan horizon
+
+# Finally run FPM
+php-fpm
+

@@ -12,7 +12,7 @@ services:
       - app-bootstrap:/var/www/pixelfed/bootstrap
       #- "./env:/var/www/pixelfed/.env"
     ports:
-      - "8080:80"
+      - "7575:80"
     depends_on:
       - pf-db
       - pf-redis
