@@ -5,4 +5,4 @@ docker-compose*.yml
 .dockerignore
 .git
 .gitignore
-.env
+
