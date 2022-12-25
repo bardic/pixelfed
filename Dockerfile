@@ -23,8 +23,6 @@ RUN (crontab -l ; echo "* * * * * /usr/bin/php /var/www/pixelfed/artisan schedul
 
 RUN chown -R www-data:www-data . 
 
-USER www-data
-
 RUN find . -type d -exec chmod 755 {} \; 
 RUN find . -type f -exec chmod 644 {} \; 
 
