@@ -23,4 +23,4 @@ php artisan config:cache
 # Finally run FPM
 php-fpm -D 
 
-go www-data php artisan horizon
+su www-data php artisan horizon
