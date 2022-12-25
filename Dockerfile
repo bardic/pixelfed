@@ -7,7 +7,6 @@ RUN apk update && \
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
-
 RUN chmod +x /usr/local/bin/install-php-extensions && \
     install-php-extensions pgsql pdo_pgsql zip exif bcmath gd redis intl pcntl  && \ 
     docker-php-ext-enable pgsql pdo_pgsql zip exif bcmath gd intl pcntl   
@@ -22,9 +21,10 @@ WORKDIR /var/www/pixelfed
 COPY . .
 RUN (crontab -l ; echo "* * * * * /usr/bin/php /var/www/pixelfed/artisan schedule:run >> /dev/null 2>&1")| crontab -
 
+RUN chown -R www-data:www-data . 
+
 USER www-data
 
-RUN chown -R www-data:www-data . 
 RUN find . -type d -exec chmod 755 {} \; 
 RUN find . -type f -exec chmod 644 {} \; 
 
