@@ -13,9 +13,6 @@ RUN chmod +x /usr/local/bin/install-php-extensions && \
     docker-php-ext-enable pgsql pdo_pgsql zip exif bcmath gd intl pcntl   
 RUN install-php-extensions @composer
 
-
-
-
 WORKDIR /var/www/
 
 RUN mkdir pixelfed
@@ -25,8 +22,12 @@ WORKDIR /var/www/pixelfed
 COPY . .
 RUN (crontab -l ; echo "* * * * * /usr/bin/php /var/www/pixelfed/artisan schedule:run >> /dev/null 2>&1")| crontab -
 
+USER www-data
+
 RUN chown -R www-data:www-data . 
 RUN find . -type d -exec chmod 755 {} \; 
 RUN find . -type f -exec chmod 644 {} \; 
+
+RUN chmod +x /var/www/pixelfed/boot.sh
 
 CMD ["/var/www/pixelfed/boot.sh"]
